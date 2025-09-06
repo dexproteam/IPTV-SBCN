@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Your Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(120deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .header {
+            padding: 30px;
+            text-align: center;
+            background: linear-gradient(120deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+        }
+
+        .header h1 {
+            font-weight: 600;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            animation: slideDown 0.8s ease;
+        }
+
+        .header p {
+            font-weight: 300;
+            opacity: 0.9;
+            animation: slideUp 0.8s ease;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .left-panel, .right-panel {
+            flex: 1;
+            min-width: 300px;
+            padding: 40px;
+        }
+
+        .left-panel {
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right-panel {
+            background: linear-gradient(120deg, rgba(106, 17, 203, 0.1) 0%, rgba(37, 117, 252, 0.1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            animation: fadeIn 1s ease;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 10px rgba(106, 17, 203, 0.2);
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(120deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            animation: fadeIn 1.2s ease;
+        }
+
+        .divider span {
+            padding: 0 15px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .gmail-auth {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            animation: fadeIn 1.4s ease;
+        }
+
+        .illustration {
+            max-width: 100%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .features {
+            margin-top: 30px;
+            animation: fadeIn 1.6s ease;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .feature i {
+            color: #6a11cb;
+            font-size: 20px;
+            margin-right: 15px;
+            background: rgba(106, 17, 203, 0.1);
+            padding: 10px;
+            border-radius: 50%;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            font-size: 14px;
+            background: #f9f9f9;
+        }
+
+        .footer a {
+            color: #6a11cb;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .user-info {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .user-info h3 {
+            color: #6a11cb;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+        }
+
+        .info-item:not(:last-child) {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .change-password {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .drawer.open {
+            left: 0;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .drawer-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+
+        .drawer-item:hover {
+            background: #f0f0f0;
+        }
+
+        .drawer-item i {
+            margin-right: 15px;
+            font-size: 20px;
+            color: #6a11cb;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        .menu-btn {
+            background: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Account section */
+        .account-section {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .account-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logout-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #ff2e43;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .drawer {
+                width: 80%;
+                left: -80%;
+            }
+        }
+
+        /* Toggle between login methods */
+        .login-toggle {
+            display: flex;
+            margin-bottom: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            padding: 5px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .toggle-option {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-option.active {
+            background: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+            color: #6a11cb;
+        }
+
+        .login-form {
+            display: none;
+        }
+
+        .login-form.active {
+            display: block;
+        }
+
+        /* Success message */
+        .success-message {
+            background: #4cd137;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="login-container">
+        <div class="header">
+            <h1>Welcome Back!</h1>
+            <p>Sign in to access your account</p>
+        </div>
+        
+        <div class="content">
+            <div class="left-panel">
+                <div id="success-message" class="success-message">
+                    Account created successfully! You can now login.
+                </div>
+                
+                <div class="login-toggle">
+                    <div class="toggle-option active" onclick="showLoginMethod('gmail')">
+                        <span>Gmail Login</span>
+                    </div>
+                    <div class="toggle-option" onclick="showLoginMethod('number')">
+                        <span>Number Login</span>
+                    </div>
+                </div>
+                
+                <div id="gmail-login" class="login-form active">
+                    <div class="gmail-auth">
+                        <div id="g_id_onload"
+                            data-client_id="15532017623-p4ibejbssp6d0lcs0lbudmmvfn12hlsk.apps.googleusercontent.com"
+                            data-context="signin"
+                            data-ux_mode="popup"
+                            data-callback="handleGmailLogin"
+                            data-auto_prompt="false">
+                        </div>
+
+                        <div class="g_id_signin"
+                            data-type="standard"
+                            data-shape="pill"
+                            data-theme="filled_blue"
+                            data-text="signin_with"
+                            data-size="large"
+                            data-logo_alignment="left">
+                        </div>
+                    </div>
+                    
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter your email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password">
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="loginWithEmail()">Sign In</button>
+                    
+                    <div class="footer" style="background: transparent; padding: 20px 0 0 0;">
+                        <p>New? <a href="#" onclick="showSignupForm()">Create Account</a></p>
+                    </div>
+                </div>
+                
+                <div id="number-login" class="login-form">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="Enter your phone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="number-password">Password</label>
+                        <input type="password" id="number-password" placeholder="Enter your password">
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="loginWithPhone()">Sign In</button>
+                    
+                    <div class="footer" style="background: transparent; padding: 20px 0 0 0;">
+                        <p>New? <a href="#" onclick="showSignupForm()">Create Account</a></p>
+                    </div>
+                </div>
+                
+                <div id="signup-form" class="login-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="Enter your email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-phone">Phone Number (Optional)</label>
+                        <input type="tel" id="signup-phone" placeholder="Enter your phone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Create a password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" placeholder="Confirm your password">
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="signUp()">Create Account</button>
+                    
+                    <div class="footer" style="background: transparent; padding: 20px 0 0 0;">
+                        <p>Already have an account? <a href="#" onclick="showLoginMethod('gmail')">Sign In</a></p>
+                    </div>
+                </div>
+                
+                <!-- Account Info Section -->
+                <div class="account-section" id="account-section">
+                    <div class="account-header">
+                        <h3>Your Account Info</h3>
+                        <button class="logout-btn" onclick="logout()">Logout</button>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Username:</span>
+                        <span class="info-value" id="account-username">User123</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value" id="account-email">Ex*****@gmail.com</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value" id="account-phone">017*****286</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Password:</span>
+                        <span class="info-value" id="account-password">ex193@#</span>
+                    </div>
+                    
+                    <div class="change-password">
+                        <h3>Change Password</h3>
+                        <div class="form-group">
+                            <label for="old-password">Old Password</label>
+                            <input type="password" id="old-password" placeholder="Enter your old password">
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" placeholder="Enter your new password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-new-password">Confirm New Password</label>
+                            <input type="password" id="confirm-new-password" placeholder="Confirm your new password">
+                        </div>
+                        <button class="btn btn-primary" onclick="changePassword()">Change Password</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <img src="https://i.imgur.com/9L6EYyl.png" alt="Login Illustration" class="illustration">
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure authentication with encryption</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>Works seamlessly across all devices</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-bolt"></i>
+                        <span>Fast and reliable login experience</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2023 Your Website. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </div>
+
+    <!-- Drawer Menu -->
+    <div class="overlay" id="overlay" onclick="toggleDrawer()"></div>
+    <div class="drawer" id="drawer">
+        <div class="drawer-header">
+            <h3>Menu</h3>
+            <button class="menu-btn" onclick="toggleDrawer()" style="background: #f0f0f0; color: #333;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="drawer-item" onclick="visitPage('https://facebook.com')">
+            <i class="fab fa-facebook"></i>
+            <span>Visit Facebook</span>
+        </div>
+        
+        <div class="drawer-item" onclick="visitPage('https://youtube.com')">
+            <i class="fab fa-youtube"></i>
+            <span>Visit YouTube</span>
+        </div>
+        
+        <div class="drawer-item" onclick="visitPage('https://tiktok.com')">
+            <i class="fab fa-tiktok"></i>
+            <span>Visit TikTok</span>
+        </div>
+        
+        <div class="drawer-item" onclick="showAccountSection()">
+            <i class="fas fa-user"></i>
+            <span>Your Account</span>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (userData && userData.isLoggedIn) {
+                showAccountSection(userData);
+            }
+            
+            // Check if we have auto login data
+            const autoLoginData = JSON.parse(localStorage.getItem('autoLoginData'));
+            if (autoLoginData) {
+                document.getElementById('email').value = autoLoginData.email;
+                document.getElementById('password').value = autoLoginData.password;
+                localStorage.removeItem('autoLoginData');
+            }
+        });
+
+        // Toggle between login methods
+        function showLoginMethod(method) {
+            document.querySelectorAll('.toggle-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.login-form').forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            if (method === 'gmail') {
+                document.querySelector('.toggle-option:first-child').classList.add('active');
+                document.getElementById('gmail-login').classList.add('active');
+            } else {
+                document.querySelector('.toggle-option:last-child').classList.add('active');
+                document.getElementById('number-login').classList.add('active');
+            }
+            
+            // Hide account section when switching login methods
+            document.getElementById('account-section').style.display = 'none';
+        }
+        
+        // Show signup form
+        function showSignupForm() {
+            document.querySelectorAll('.login-form').forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            document.getElementById('signup-form').classList.add('active');
+            
+            // Hide the toggle options when in signup mode
+            document.querySelector('.login-toggle').style.display = 'none';
+            
+            // Hide account section
+            document.getElementById('account-section').style.display = 'none';
+        }
+        
+        // Handle Gmail login response
+        function handleGmailLogin(response) {
+            console.log("Gmail login response:", response);
+            // Here you would typically handle the login response
+            // and send the credential to your authentication server
+            const credential = response.credential;
+            
+            // For demo purposes, we'll create a mock user
+            const userData = {
+                username: "Google User",
+                email: maskEmail("googleuser@gmail.com"),
+                phone: maskPhone("01712345678"),
+                password: "ex193@#",
+                isLoggedIn: true
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Show account section
+            showAccountSection(userData);
+        }
+        
+        // Login with email
+        function loginWithEmail() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                alert("Please enter both email and password");
+                return;
+            }
+            
+            // Create user data object
+            const userData = {
+                username: "Email User",
+                email: maskEmail(email),
+                phone: maskPhone("01700000000"),
+                password: password,
+                isLoggedIn: true
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Show account section
+            showAccountSection(userData);
+        }
+        
+        // Login with phone
+        function loginWithPhone() {
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('number-password').value;
+            
+            if (!phone || !password) {
+                alert("Please enter both phone number and password");
+                return;
+            }
+            
+            // Create user data object
+            const userData = {
+                username: "Phone User",
+                email: maskEmail("user@example.com"),
+                phone: maskPhone(phone),
+                password: password,
+                isLoggedIn: true
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Show account section
+            showAccountSection(userData);
+        }
+        
+        // Sign up function
+        function signUp() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('signup-email').value;
+            const phone = document.getElementById('signup-phone').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (!name || !email || !password || !confirmPassword) {
+                alert("Please fill in all required fields");
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert("Passwords do not match");
+                return;
+            }
+            
+            // Create user data object
+            const userData = {
+                username: name,
+                email: maskEmail(email),
+                phone: maskPhone(phone || "01700000000"),
+                password: password,
+                isLoggedIn: true
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Save auto login data
+            localStorage.setItem('autoLoginData', JSON.stringify({
+                email: email,
+                password: password
+            }));
+            
+            // Show success message
+            document.getElementById('success-message').style.display = 'block';
+            
+            // Switch to login form
+            showLoginMethod('gmail');
+            
+            // Auto fill login form
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = password;
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                document.getElementById('success-message').style.display = 'none';
+            }, 5000);
+        }
+        
+        // Show account section
+        function showAccountSection(userData) {
+            // Hide all login forms
+            document.querySelectorAll('.login-form').forEach(form => {
+                form.style.display = 'none';
+            });
+            
+            // Hide login toggle
+            document.querySelector('.login-toggle').style.display = 'none';
+            
+            // Show account section
+            const accountSection = document.getElementById('account-section');
+            accountSection.style.display = 'block';
+            
+            // Update user info
+            if (userData) {
+                document.getElementById('account-username').textContent = userData.username;
+                document.getElementById('account-email').textContent = userData.email;
+                document.getElementById('account-phone').textContent = userData.phone;
+                document.getElementById('account-password').textContent = userData.password;
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            // Update user data
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            userData.isLoggedIn = false;
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Hide account section
+            document.getElementById('account-section').style.display = 'none';
+            
+            // Show login forms
+            showLoginMethod('gmail');
+            document.querySelector('.login-toggle').style.display = 'flex';
+            
+            // Clear form fields
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('number-password').value = '';
+        }
+        
+        // Change password
+        function changePassword() {
+            const oldPassword = document.getElementById('old-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmNewPassword = document.getElementById('confirm-new-password').value;
+            
+            if (!oldPassword || !newPassword || !confirmNewPassword) {
+                alert("Please fill in all password fields");
+                return;
+            }
+            
+            // Get user data
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            
+            if (oldPassword !== userData.password) {
+                alert("Old password is incorrect");
+                return;
+            }
+            
+            if (newPassword !== confirmNewPassword) {
+                alert("New passwords do not match");
+                return;
+            }
+            
+            // Update password
+            userData.password = newPassword;
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Update display
+            document.getElementById('account-password').textContent = newPassword;
+            
+            // Clear form
+            document.getElementById('old-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-new-password').value = '';
+            
+            alert("Password changed successfully!");
+        }
+        
+        // Toggle drawer menu
+        function toggleDrawer() {
+            const drawer = document.getElementById('drawer');
+            const overlay = document.getElementById('overlay');
+            
+            drawer.classList.toggle('open');
+            overlay.style.display = drawer.classList.contains('open') ? 'block' : 'none';
+        }
+        
+        // Visit external page
+        function visitPage(url) {
+            window.open(url, '_blank');
+            toggleDrawer();
+        }
+        
+        // Mask email for privacy
+        function maskEmail(email) {
+            const parts = email.split('@');
+            const username = parts[0];
+            const domain = parts[1];
+            
+            if (username.length <= 2) {
+                return username.charAt(0) + '*****@' + domain;
+            }
+            
+            return username.charAt(0) + '*****' + username.charAt(username.length - 1) + '@' + domain;
+        }
+        
+        // Mask phone number for privacy
+        function maskPhone(phone) {
+            if (phone.length < 7) return phone;
+            
+            return phone.substring(0, 3) + '*****' + phone.substring(phone.length - 3);
+        }
+        
+        // Add some interactive animations to form elements
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', () => {
+                input.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
